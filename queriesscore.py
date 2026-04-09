@@ -46,7 +46,7 @@ st.title("📝 Questionnaire WebApp")
 st.write("Please enter your name and answer the questions below:")
 
 name = st.text_input("Your Name")
-questions = load_questions("questionsscore.md")
+questions = load_questions("queriesscore.md")
 
 if "all_responses" not in st.session_state:
     st.session_state["all_responses"] = []
