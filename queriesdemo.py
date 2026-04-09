@@ -86,21 +86,7 @@ if st.button("Submit"):
         except Exception as e:
             st.error(f"Failed to save to Git: {e}")
 
-# --- New Button: Save to Google Sheets (horizontal row) ---
-
-if st.button("Save to Google Sheets"):
-    if not name.strip():
-        st.warning("Please enter your name before saving.")
-    else:
-        # Flatten responses into one row: Name + answers + Total Score
-        row_data = [name] + [responses[q["question"]] for q in questions] + [total_score]
-
-        # Append the entire row in one call
-        sheet.append_row(row_data)
-
-        st.success("Responses saved to Google Sheets successfully!")
-
-# --- Display collected responses ---
+# --- Display collected responses and export options ---
 if st.session_state["all_responses"]:
     df = pd.DataFrame(st.session_state["all_responses"])
     st.write("### Collected Responses")
@@ -118,4 +104,13 @@ if st.session_state["all_responses"]:
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
 
-# --- New button ---
+    # --- Export to Google Sheets button ---
+    if st.button("Export to Sheets"):
+        # Flatten the latest response into one row: Name + answers + Total Score
+        latest_response = st.session_state["all_responses"][-1]
+        row_data = [latest_response["Name"]] + [
+            latest_response[q["question"]] for q in questions
+        ] + [latest_response["Total Score"]]
+
+        sheet.append_row(row_data)
+        st.success("Latest response exported to Google Sheets successfully!")
