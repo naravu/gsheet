@@ -113,3 +113,17 @@ if st.session_state["all_responses"]:
         "responses.xlsx",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
+
+# --- New button ---
+# --- New Button: Save to Google Sheets (horizontal row) ---
+if st.button("Save to Google Sheets"):
+    if not name.strip():
+        st.warning("Please enter your name before saving.")
+    else:
+        # Flatten responses into one row: Name + answers + Total Score
+        row_data = [name] + [responses[q["question"]] for q in questions] + [total_score]
+
+        # Append the entire row in one call
+        sheet.append_row(row_data)
+
+        st.success("Responses saved to Google Sheets successfully!")
