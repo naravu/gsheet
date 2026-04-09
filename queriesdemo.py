@@ -87,13 +87,17 @@ if st.button("Submit"):
             st.error(f"Failed to save to Git: {e}")
 
 # --- New Button: Save to Google Sheets (horizontal row) ---
+
 if st.button("Save to Google Sheets"):
     if not name.strip():
         st.warning("Please enter your name before saving.")
     else:
-        # Prepare row data: Name + answers + Total Score
+        # Flatten responses into one row: Name + answers + Total Score
         row_data = [name] + [responses[q["question"]] for q in questions] + [total_score]
+
+        # Append the entire row in one call
         sheet.append_row(row_data)
+
         st.success("Responses saved to Google Sheets successfully!")
 
 # --- Display collected responses ---
@@ -115,15 +119,3 @@ if st.session_state["all_responses"]:
     )
 
 # --- New button ---
-# --- New Button: Save to Google Sheets (horizontal row) ---
-if st.button("Save to Google Sheets"):
-    if not name.strip():
-        st.warning("Please enter your name before saving.")
-    else:
-        # Flatten responses into one row: Name + answers + Total Score
-        row_data = [name] + [responses[q["question"]] for q in questions] + [total_score]
-
-        # Append the entire row in one call
-        sheet.append_row(row_data)
-
-        st.success("Responses saved to Google Sheets successfully!")
