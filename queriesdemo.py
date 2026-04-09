@@ -46,7 +46,7 @@ st.title("📝 Questionnaire WebApp")
 st.write("Please enter your name and answer the questions below:")
 
 name = st.text_input("Your Name")
-questions = load_questions("queriessscore.md")
+questions = load_questions("queriesscore.md")
 
 if "all_responses" not in st.session_state:
     st.session_state["all_responses"] = []
@@ -86,7 +86,7 @@ if st.button("Submit"):
         except Exception as e:
             st.error(f"Failed to save to Git: {e}")
 
-# --- New Button: Save to Google Sheets horizontally ---
+# --- New Button: Save to Google Sheets (horizontal row) ---
 if st.button("Save to Google Sheets"):
     if not name.strip():
         st.warning("Please enter your name before saving.")
