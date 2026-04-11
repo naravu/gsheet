@@ -31,7 +31,11 @@ def load_questions(md_file):
                 current_question = line.replace("##", "").strip()
                 options = []
             elif line.startswith("-"):  # Option line
-                match = re.match(r"(.+?)\s*\[([\d\.]+)\] $", line.replace("-", "").strip())
+                match = re.match(r"(.+?)\s* 
+
+\[([\d\.]+)\]
+
+ $", line.replace("-", "").strip())
                 if match:
                     option_text, score = match.groups()
                     options.append({"text": option_text.strip(), "score": float(score)})
@@ -46,7 +50,7 @@ st.title("📝 Questionnaire WebApp")
 st.write("Please enter your name and answer the questions below:")
 
 name = st.text_input("Your Name")
-questions = load_questions("queriesscore.md")
+questions = load_questions("questionsscore.md")
 
 if "all_responses" not in st.session_state:
     st.session_state["all_responses"] = []
@@ -106,7 +110,7 @@ if st.session_state["all_responses"]:
 
     # --- Export to Google Sheets button ---
     if st.button("Export to Sheets"):
-        # Flatten the latest response into one row: Name + answers + Total Score
+        # Take the latest response and flatten into one row
         latest_response = st.session_state["all_responses"][-1]
         row_data = [latest_response["Name"]] + [
             latest_response[q["question"]] for q in questions
