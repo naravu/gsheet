@@ -5,7 +5,6 @@ import re
 import subprocess
 from datetime import datetime
 import gspread
-
 from google.oauth2.service_account import Credentials
 
 # --- Google Sheets Setup ---
@@ -18,7 +17,7 @@ creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
 client = gspread.authorize(creds)
 
 # Change to your sheet name
-sheet = client.open("queriesdemo").sheet1
+sheet = client.open("QuestionnaireResponses").sheet1
 
 def load_questions(md_file):
     questions = []
@@ -47,7 +46,7 @@ st.title("📝 Questionnaire WebApp")
 st.write("Please enter your name and answer the questions below:")
 
 name = st.text_input("Your Name")
-questions = load_questions("queriesscore.md")
+questions = load_questions("questionsscore.md")
 
 if "all_responses" not in st.session_state:
     st.session_state["all_responses"] = []
@@ -107,7 +106,7 @@ if st.session_state["all_responses"]:
 
     # --- Export to Google Sheets button ---
     if st.button("Export to Sheets"):
-        # Take the latest response and flatten into one row
+        # Flatten the latest response into one row: Name + answers + Total Score
         latest_response = st.session_state["all_responses"][-1]
         row_data = [latest_response["Name"]] + [
             latest_response[q["question"]] for q in questions
