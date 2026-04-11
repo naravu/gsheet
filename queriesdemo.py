@@ -17,7 +17,7 @@ creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
 client = gspread.authorize(creds)
 
 # Change to your sheet name
-sheet = client.open("QuestionnaireResponses").sheet1
+sheet = client.open("queriesdemo").sheet1
 
 def load_questions(md_file):
     questions = []
